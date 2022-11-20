@@ -103,10 +103,17 @@ namespace Crumblin__Bot
                     guildCommand.WithName(command.CommandName);
                     guildCommand.WithDescription(command.CommandDescription);
 
+
+                    SlashCommandBuilder globalCommand = new SlashCommandBuilder();
+
+                    // Assign properties to it
+                    globalCommand.WithName(command.CommandName);
+                    globalCommand.WithDescription(command.CommandDescription);
                     // Try to build and create application command
                     try
                     {
                         await guild.CreateApplicationCommandAsync(guildCommand.Build());
+                        await _client.CreateGlobalApplicationCommandAsync(globalCommand.Build());
                     }
 
                     catch (ApplicationCommandException exception)
