@@ -89,13 +89,14 @@ namespace Crumblin__Bot
             // If the command exists, execute it.
             if (commandType != null) 
             {
-                commandType.HandleCommand(command);
+                Task.Run(async () => commandType.HandleCommand(command));
             }
         }
 
         private async Task Client_Ready()
         {
             // Get all the guilds we are currently connected to.
+            Task.Run(async () => {
             foreach (var guild in _client.Guilds)
             {
                 // Pull all of the commands so we can create a SlashCommand for each
@@ -110,7 +111,6 @@ namespace Crumblin__Bot
 
 
                     SlashCommandBuilder globalCommand = new SlashCommandBuilder();
-
                     // Assign properties to it
                     globalCommand.WithName(command.CommandName);
                     globalCommand.WithDescription(command.CommandDescription);
@@ -124,14 +124,15 @@ namespace Crumblin__Bot
                     catch (ApplicationCommandException exception)
                     {
                         // Print the exception to the console
-                        Log(new LogMessage(LogSeverity.Error, command.CommandName, exception.Reason, exception));
+                        Log(new LogMessage(LogSeverity.Error, command.CommandName, exception.Message, exception));
                     }
                 }
             }
 
             // Schedule weekly cookie updates to 
             // Guilds that are subscribed them.
-            await PostMenuWeekly();
+            PostMenuWeekly();
+            });
         }
 
         private Task Log(LogMessage msg)
