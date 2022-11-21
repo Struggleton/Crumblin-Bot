@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Quartz.Util;
 using System.Text.Json;
 
 namespace Crumblin__Bot
@@ -9,42 +10,42 @@ namespace Crumblin__Bot
 
     public class AllergyInformation
     {
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 
     public class CalorieInformation
     {
-        public string PerServing { get; set; }
+        public string? PerServing { get; set; }
     }
 
     public class Cookie
     {
-        public string ID { get; set; }
-        public string NameWithoutPartner { get; set; }
-        public string Name { get; set; }
-        public string Image { get; set; }
-        public string NewImage { get; set; }
-        public string Description { get; set; }
-        public string IconImage { get; set; }
-        public bool IsMysteryCookie { get; set; }
-        public object FeaturedPartner { get; set; }
-        public object FeaturedPartnerLogo { get; set; }
+        public string? ID { get; set; }
+        public string? NameWithoutPartner { get; set; }
+        public string? Name { get; set; }
+        public string? Image { get; set; }
+        public string? NewImage { get; set; }
+        public string? Description { get; set; }
+        public string? IconImage { get; set; }
+        public bool? IsMysteryCookie { get; set; }
+        public object? FeaturedPartner { get; set; }
+        public object? FeaturedPartnerLogo { get; set; }
         public bool? NewRecipeCallout { get; set; }
-        public AllergyInformation AllergyInformation { get; set; }
-        public CalorieInformation CalorieInformation { get; set; }
+        public AllergyInformation? AllergyInformation { get; set; }
+        public CalorieInformation? CalorieInformation { get; set; }
     }
 
     public class Icecream
     {
-        public string ID { get; set; }
-        public string Name { get; set; }
-        public string Image { get; set; }
+        public string? ID { get; set; }
+        public string? Name { get; set; }
+        public string? Image { get; set; }
     }
 
     public class PageProps
     {
-        public Urls Urls { get; set; }
-        public Products Products { get; set; }
+        public Urls? Urls { get; set; }
+        public Products? Products { get; set; }
     }
 
     public class Products
@@ -55,12 +56,12 @@ namespace Crumblin__Bot
 
     public class Root
     {
-        public PageProps PageProps { get; set; }
+        public PageProps? PageProps { get; set; }
     }
 
     public class Urls
     {
-        public string Desktop { get; set; }
+        public string? Desktop { get; set; }
     }
 
     public static class CookieMenu
@@ -78,7 +79,6 @@ namespace Crumblin__Bot
 
         public static async Task<PageProps> GetCookieMenu()
         {
-            // Open
             using (HttpClient httpClient = new HttpClient())
             {
                 // Pull the JSON data from the crumbl-cookie website
@@ -102,7 +102,11 @@ namespace Crumblin__Bot
             foreach (Cookie cookie in PageProperties.Products.Cookies)
             {
                 var embed = new EmbedBuilder();
-                embed.AddField("Allergy Information", cookie.AllergyInformation.Description, true)
+                // Fields can not be empty, so ensure that it isn't.
+                string allergyInfo = !String.IsNullOrEmpty(cookie.AllergyInformation.Description) ?
+                                     cookie.AllergyInformation.Description : "N/A";
+
+                embed.AddField("Allergy Information", allergyInfo, true)
                    .WithTitle(cookie.Name)
                    .WithFooter(footer => footer.Text = "Bot written by @Struggleton.")
                    .WithImageUrl(cookie.Image)
