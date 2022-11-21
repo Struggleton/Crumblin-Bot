@@ -34,7 +34,12 @@ namespace Crumblin__Bot
         {
             // Create a new DiscordClient and subscribe to
             // our events.
-            _client = new DiscordSocketClient();
+            DiscordSocketConfig config = new()
+            {
+                UseInteractionSnowflakeDate = false
+            };
+
+            _client = new DiscordSocketClient(config);
             _client.SlashCommandExecuted += Client_SlashCommandHandler;
             _client.Ready += Client_Ready;
             _client.Log += Log;
