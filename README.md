@@ -22,3 +22,4 @@ Libraries used include:
 
     * Discord.NET
     * Quartz
+	* HTMLAgilityPack

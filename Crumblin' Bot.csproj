@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>Crumblin__Bot</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -19,6 +19,7 @@
     <PackageReference Include="Discord.Net.Core" Version="3.8.1" />
     <PackageReference Include="Discord.Net.Interactions" Version="3.8.1" />
     <PackageReference Include="Discord.Net.WebSocket" Version="3.8.1" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="Quartz" Version="3.5.0" />
   </ItemGroup>

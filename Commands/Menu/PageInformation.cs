@@ -1,4 +1,5 @@
 ﻿using Discord;
+using HtmlAgilityPack;
 using Quartz.Util;
 using System.Text.Json;
 
@@ -54,9 +55,16 @@ namespace Crumblin__Bot
         public List<Icecream> Icecream { get; set; }
     }
 
-    public class Root
+
+    public class Props
     {
         public PageProps? PageProps { get; set; }
+        public bool __N_SSG { get; set; }
+    }
+
+    public class Root
+    {
+        public Props? Props { get; set; }
     }
 
     public class Urls
@@ -66,7 +74,8 @@ namespace Crumblin__Bot
 
     public static class CookieMenu
     {
-        private const string REQUEST_LINK = "https://crumblcookies.com/_next/data/3vlnjP8_HnvwPNUsx_Pvh/en.json";
+        private const string REQUEST_LINK = "https://crumblcookies.com/";
+        private const string FALLBACK_LINK = "https://crumblcookies.com/_next/data/TkXqYQP49SZHH45y82nvD/en/nutrition/regular.json";
         public static PageProps PageProperties { get; set; } = new PageProps();
 
         // Update pageproperties on init
@@ -79,20 +88,18 @@ namespace Crumblin__Bot
 
         public static async Task<PageProps> GetCookieMenu()
         {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                // Pull the JSON data from the crumbl-cookie website
-                HttpResponseMessage result = httpClient.GetAsync(REQUEST_LINK).Result;
-                string pageProperties = await result.Content.ReadAsStringAsync();
 
-                // Deserialize the page JSON to cookie info
-                Root? pageRoot = JsonSerializer.Deserialize<Root>(pageProperties, new JsonSerializerOptions()
+            HtmlWeb hwObject = new HtmlWeb();
+            HtmlDocument htmldocObject = hwObject.Load(REQUEST_LINK);
+            HtmlNode pagePropNode = htmldocObject.DocumentNode.Descendants("script").FirstOrDefault(x => x.Id == "__NEXT_DATA__");
+
+            Root? pageRoot = JsonSerializer.Deserialize<Root>(pagePropNode.InnerText, new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
-                return pageRoot.PageProps;
-            }
+                return pageRoot.Props.PageProps;
+            
         }
 
         public static async Task<List<EmbedBuilder>> CreateCookieEmbeds()
