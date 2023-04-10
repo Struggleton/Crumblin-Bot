@@ -32,8 +32,8 @@ namespace Crumblin__Bot
         public object? FeaturedPartner { get; set; }
         public object? FeaturedPartnerLogo { get; set; }
         public bool? NewRecipeCallout { get; set; }
-        public AllergyInformation? AllergyInformation { get; set; }
-        public CalorieInformation? CalorieInformation { get; set; }
+        public AllergyInformation? AllergyInformation { get; set; } = new AllergyInformation();
+        public CalorieInformation? CalorieInformation { get; set; } = new CalorieInformation();
     }
 
     public class Icecream
