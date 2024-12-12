@@ -17,8 +17,44 @@ namespace Crumblin__Bot
     public class CalorieInformation
     {
         public string? PerServing { get; set; }
+
+        public string? Total { get; set; }
+
+        public string? Typename { get; set; }
     }
 
+    public class Cookie
+    {
+        public string? Id { get; set; }
+
+        public string? CookieId { get; set; }
+
+        public string? Status { get; set; }
+
+        public string? NameWithoutPartner { get; set; }
+
+        public string? Name { get; set; }
+
+        public string? AerialImage { get; set; }
+
+        public string? NewAerialImage { get; set; }
+
+        public string? Description { get; set; }
+
+        public string? IconImage { get; set; }
+
+        public bool IsMysteryCookie { get; set; }
+
+        public string? FeaturedPartner { get; set; }
+
+        public string? FeaturedPartnerLogo { get; set; }
+
+        public bool? NewRecipeCallout { get; set; }
+
+        public CalorieInformation? CalorieInformation { get; set; }
+    }
+
+    /*
     public class Cookie
     {
         public string? ID { get; set; }
@@ -27,6 +63,7 @@ namespace Crumblin__Bot
         public string? Image { get; set; }
         public string? NewImage { get; set; }
         public string? Description { get; set; }
+        public string? AerialImage { get; set; }
         public string? IconImage { get; set; }
         public bool? IsMysteryCookie { get; set; }
         public object? FeaturedPartner { get; set; }
@@ -35,6 +72,7 @@ namespace Crumblin__Bot
         public AllergyInformation? AllergyInformation { get; set; } = new AllergyInformation();
         public CalorieInformation? CalorieInformation { get; set; } = new CalorieInformation();
     }
+    */
 
     public class Icecream
     {
@@ -108,13 +146,16 @@ namespace Crumblin__Bot
             {
                 var embed = new EmbedBuilder();
                 // Fields can not be empty, so ensure that it isn't.
-                string allergyInfo = !String.IsNullOrEmpty(cookie.AllergyInformation.Description) ?
-                                     cookie.AllergyInformation.Description : "N/A";
+                string calorieInfo = !String.IsNullOrEmpty(cookie.CalorieInformation.Total) ?
+                                     cookie.CalorieInformation.Total : "N/A";
 
-                embed.AddField("Allergy Information", allergyInfo, true)
+                string imageInfo = !String.IsNullOrEmpty(cookie.AerialImage) ?
+                                     cookie.AerialImage : cookie.IconImage;
+
+                embed.AddField("Calorie Information", calorieInfo, true)
                    .WithTitle(cookie.Name)
                    .WithFooter(footer => footer.Text = "Bot written by @Struggleton.")
-                   .WithImageUrl(cookie.Image)
+                   .WithImageUrl(imageInfo)
                    .WithDescription(cookie.Description)
                    .WithUrl("https://crumblcookies.com/")
                    .WithColor(Color.LightOrange)
