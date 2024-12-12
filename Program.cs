@@ -73,7 +73,7 @@ namespace Crumblin__Bot
             // Every monday at 10.
             ITrigger trigger = TriggerBuilder.Create()
             .WithIdentity("trigger1", "baseGroup")
-            .WithSchedule(CronScheduleBuilder.CronSchedule("0 0 10 ? * MON *"))
+            .WithSchedule(CronScheduleBuilder.CronSchedule("\r\n0 0 10 ? * MON *"))
             .Build();
 
             // Schedule the job and start it.
